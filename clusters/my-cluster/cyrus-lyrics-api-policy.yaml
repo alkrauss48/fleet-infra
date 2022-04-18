@@ -9,5 +9,5 @@ spec:
     name: cyrus-lyrics-api
   policy:
     semver:
-      range: 1.0.x
+      range: 1.x.x
 
