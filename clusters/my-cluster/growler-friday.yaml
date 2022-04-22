@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: growler-friday
-        image: alkrauss48/growler-friday:latest # {"$imagepolicy": "flux-system:growler-friday-frontend"}
+        image: alkrauss48/growler-friday:1.0.0 # {"$imagepolicy": "flux-system:growler-friday-frontend"}
         ports:
         - containerPort: 80
         resources:
