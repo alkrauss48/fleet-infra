@@ -31,3 +31,24 @@ spec:
             port: 80
           initialDelaySeconds: 3
           periodSeconds: 3
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: mothercodesbest-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: mothercodesbest-frontend
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: mothercodesbest-frontend
+  namespace: flux-system
+spec:
+  image: laylark/mothercodesbest.dev-frontend
+  interval: 1m0s
