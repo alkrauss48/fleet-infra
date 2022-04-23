@@ -21,6 +21,6 @@ spec:
     kind: GitRepository
     name: flux-system
   update:
-    path: ./clusters/my-cluster
+    path: ./clusters/my-cluster/deployments
     strategy: Setters
 
