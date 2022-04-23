@@ -70,3 +70,24 @@ spec:
             secretKeyRef:
               name: oauth
               key: redirectUri
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: cyrus-lyrics-api
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: cyrus-lyrics-api
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: cyrus-lyrics-api
+  namespace: flux-system
+spec:
+  image: alkrauss48/cyrus-lyrics-api
+  interval: 1m0s
