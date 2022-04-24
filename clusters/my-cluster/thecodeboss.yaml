@@ -21,21 +21,21 @@ spec:
         persistentVolumeClaim:
           claimName: uploads
       initContainers:
-        - name: plugins-data-permission-fix
-          image: busybox
-          command: ["/bin/chmod","-R","777", "/data"]
-          volumeMounts:
-            - name: plugins
-              mountPath: /data
-        - name: uploads-data-permission-fix
-          image: busybox
-          command: ["/bin/chmod","-R","777", "/data"]
-          volumeMounts:
-            - name: uploads
-              mountPath: /data
+      - name: plugins-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: plugins
+          mountPath: /data
+      - name: uploads-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: uploads
+          mountPath: /data
       containers:
       - name: wordpress
-        image: alkrauss48/thecodeboss.dev:latest # {"$imagepolicy": "flux-system:thecodeboss-wordpress"}
+        image: alkrauss48/thecodeboss.dev:1.0.0 # {"$imagepolicy": "flux-system:thecodeboss-wordpress"}
         ports:
         - containerPort: 9000
         volumeMounts:
@@ -112,18 +112,18 @@ spec:
         persistentVolumeClaim:
           claimName: uploads
       initContainers:
-        - name: plugins-data-permission-fix
-          image: busybox
-          command: ["/bin/chmod","-R","777", "/data"]
-          volumeMounts:
-            - name: plugins
-              mountPath: /data
-        - name: uploads-data-permission-fix
-          image: busybox
-          command: ["/bin/chmod","-R","777", "/data"]
-          volumeMounts:
-            - name: uploads
-              mountPath: /data
+      - name: plugins-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: plugins
+          mountPath: /data
+      - name: uploads-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: uploads
+          mountPath: /data
       containers:
       - name: nginx
         image: alkrauss48/thecodeboss.dev-frontend:latest # {"$imagepolicy": "flux-system:thecodeboss-frontend"}
@@ -184,43 +184,43 @@ spec:
         persistentVolumeClaim:
           claimName: database
       initContainers:
-        - name: database-data-permission-fix
-          image: busybox
-          command: ["/bin/chmod","-R","777", "/data"]
-          volumeMounts:
-            - name: database
-              mountPath: /data
+      - name: database-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: database
+          mountPath: /data
       containers:
       - name: db
-        image: alkrauss48/thecodeboss.dev-db:latest # {"$imagepolicy": "flux-system:thecodeboss-db"}
+        image: alkrauss48/thecodeboss.dev-db:1.0.0 # {"$imagepolicy": "flux-system:thecodeboss-db"}
         args:
-          - "--ignore-db-dir=lost+found"
+        - "--ignore-db-dir=lost+found"
         ports:
         - containerPort: 3306
         volumeMounts:
         - name: database
           mountPath: /var/lib/mysql
         env:
-          - name: MYSQL_DATABASE
-            valueFrom:
-              secretKeyRef:
-                name: db
-                key: database
-          - name: MYSQL_USER
-            valueFrom:
-              secretKeyRef:
-                name: db
-                key: username
-          - name: MYSQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db
-                key: password
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db
-                key: rootPassword
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: database
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: password
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: rootPassword
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
