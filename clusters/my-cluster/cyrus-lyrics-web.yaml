@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cyrus-lyrics-web
-        image: alkrauss48/cyrus-lyrics-web:latest
+        image: alkrauss48/cyrus-lyrics-web:latest # {"$imagepolicy": "flux-system:cyrus-lyrics-web"}
         ports:
         - containerPort: 80
         resources:
