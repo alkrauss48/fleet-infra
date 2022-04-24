@@ -1,3 +1,4 @@
 secrets.yaml
 *.sql
 backup
+.env
