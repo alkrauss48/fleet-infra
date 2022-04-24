@@ -1,0 +1,232 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  namespace: thecodeboss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      volumes:
+      - name: plugins
+        persistentVolumeClaim:
+          claimName: plugins
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: uploads
+      initContainers:
+      - name: plugins-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: plugins
+          mountPath: /data
+      - name: uploads-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: uploads
+          mountPath: /data
+      containers:
+      - name: wordpress
+        image: alkrauss48/thecodeboss.dev:1.0.0 # {"$imagepolicy": "flux-system:thecodeboss-wordpress"}
+        ports:
+        - containerPort: 9000
+        volumeMounts:
+        - name: plugins
+          mountPath: "/var/www/html/wp-content/plugins"
+        - name: uploads
+          mountPath: "/var/www/html/wp-content/uploads"
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: "db:3306"
+        - name: WORDPRESS_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: database
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: username
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: password
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: thecodeboss-wordpress
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: thecodeboss-wordpress
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: thecodeboss-wordpress
+  namespace: flux-system
+spec:
+  image: alkrauss48/thecodeboss.dev
+  interval: 1m0s
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: thecodeboss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      volumes:
+      - name: plugins
+        persistentVolumeClaim:
+          claimName: plugins
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: uploads
+      initContainers:
+      - name: plugins-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: plugins
+          mountPath: /data
+      - name: uploads-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: uploads
+          mountPath: /data
+      containers:
+      - name: nginx
+        image: alkrauss48/thecodeboss.dev-frontend:latest # {"$imagepolicy": "flux-system:thecodeboss-frontend"}
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: plugins
+          mountPath: "/var/www/html/wp-content/plugins"
+        - name: uploads
+          mountPath: "/var/www/html/wp-content/uploads"
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: thecodeboss-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: thecodeboss-frontend
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: thecodeboss-frontend
+  namespace: flux-system
+spec:
+  image: alkrauss48/thecodeboss.dev-frontend
+  interval: 1m0s
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: thecodeboss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      volumes:
+      - name: database
+        persistentVolumeClaim:
+          claimName: database
+      initContainers:
+      - name: database-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: database
+          mountPath: /data
+      containers:
+      - name: db
+        image: alkrauss48/thecodeboss.dev-db:1.0.0 # {"$imagepolicy": "flux-system:thecodeboss-db"}
+        args:
+        - "--ignore-db-dir=lost+found"
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: database
+          mountPath: /var/lib/mysql
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: database
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: password
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: rootPassword
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: thecodeboss-db
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: thecodeboss-db
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: thecodeboss-db
+  namespace: flux-system
+spec:
+  image: alkrauss48/thecodeboss.dev-db
+  interval: 1m0s
