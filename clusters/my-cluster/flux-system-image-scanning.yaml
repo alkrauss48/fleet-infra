@@ -23,4 +23,14 @@ spec:
   update:
     path: ./clusters/my-cluster
     strategy: Setters
-
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: flux-system
+  namespace: default
+spec:
+  interval: 5m0s
+  url: https://github.com/alkrauss48/fleet-infra
+  ref:
+    branch: main
