@@ -1,4 +1,4 @@
-source ./.env
+source .env
 
 flux bootstrap github \
   --components-extra=image-reflector-controller,image-automation-controller \
