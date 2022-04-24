@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: alkrauss48/labs-nginx:latest # {"$imagepolicy": "flux-system:labs-frontend"}
+        image: alkrauss48/labs-nginx:1.0.0 # {"$imagepolicy": "flux-system:labs-frontend"}
         ports:
         - containerPort: 80
 ---
@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
       - name: php
-        image: alkrauss48/labs-php:latest # {"$imagepolicy": "flux-system:labs-backend"}
+        image: alkrauss48/labs-php:1.0.0 # {"$imagepolicy": "flux-system:labs-backend"}
         ports:
         - containerPort: 9000
 ---
