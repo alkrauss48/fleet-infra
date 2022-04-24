@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: labs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: alkrauss48/labs-nginx:latest # {"$imagepolicy": "flux-system:labs-frontend"}
+        ports:
+        - containerPort: 80
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: labs-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: labs-frontend
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: labs-frontend
+  namespace: flux-system
+spec:
+  image: alkrauss48/labs-nginx
+  interval: 1m0s
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: labs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: php
+        image: alkrauss48/labs-php:latest # {"$imagepolicy": "flux-system:labs-backend"}
+        ports:
+        - containerPort: 9000
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: labs-backend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: labs-backend
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: labs-backend
+  namespace: flux-system
+spec:
+  image: alkrauss48/labs-php
+  interval: 1m0s
