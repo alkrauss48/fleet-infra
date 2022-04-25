@@ -18,15 +18,15 @@ spec:
         persistentVolumeClaim:
           claimName: storage
       initContainers:
-        - name: storage-data-permission-fix
-          image: busybox
-          command: ["/bin/chmod","-R","777", "/data"]
-          volumeMounts:
-            - name: storage
-              mountPath: /data
+      - name: storage-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: storage
+          mountPath: /data
       containers:
       - name: app
-        image: alkrauss48/resume-haus:latest # {"$imagepolicy": "flux-system:resume-haus-web"}
+        image: alkrauss48/resume-haus:1.0.0 # {"$imagepolicy": "flux-system:resume-haus-web"}
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -136,43 +136,43 @@ spec:
         persistentVolumeClaim:
           claimName: database
       initContainers:
-        - name: database-data-permission-fix
-          image: busybox
-          command: ["/bin/chmod","-R","777", "/data"]
-          volumeMounts:
-            - name: database
-              mountPath: /data
+      - name: database-data-permission-fix
+        image: busybox
+        command: ["/bin/chmod", "-R", "777", "/data"]
+        volumeMounts:
+        - name: database
+          mountPath: /data
       containers:
       - name: db
-        image: alkrauss48/resume-haus-db:latest # {"$imagepolicy": "flux-system:resume-haus-db"}
+        image: alkrauss48/resume-haus-db:1.0.0 # {"$imagepolicy": "flux-system:resume-haus-db"}
         args:
-          - "--ignore-db-dir=lost+found"
+        - "--ignore-db-dir=lost+found"
         ports:
         - containerPort: 3306
         volumeMounts:
         - name: database
           mountPath: /var/lib/mysql
         env:
-          - name: MYSQL_DATABASE
-            valueFrom:
-              secretKeyRef:
-                name: db
-                key: database
-          - name: MYSQL_USER
-            valueFrom:
-              secretKeyRef:
-                name: db
-                key: username
-          - name: MYSQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db
-                key: password
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db
-                key: rootPassword
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: database
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: password
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: rootPassword
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
