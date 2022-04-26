@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: websockets
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: alkrauss48/websockets-frontend:latest # {"$imagepolicy": "flux-system:websockets-frontend"}
+        ports:
+        - containerPort: 80
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: websockets-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: websockets-frontend
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: websockets-frontend
+  namespace: flux-system
+spec:
+  image: alkrauss48/websockets-frontend
+  interval: 1m0s
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: websockets
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: alkrauss48/websockets-backend:latest # {"$imagepolicy": "flux-system:websockets-backend"}
+        ports:
+        - containerPort: 7070
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: websockets-backend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: websockets-backend
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: websockets-backend
+  namespace: flux-system
+spec:
+  image: alkrauss48/websockets-backend
+  interval: 1m0s
