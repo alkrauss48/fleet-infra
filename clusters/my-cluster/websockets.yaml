@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: alkrauss48/websockets-frontend:1.0.0 # {"$imagepolicy": "flux-system:websockets-frontend"}
+        image: alkrauss48/websockets-frontend:1.1.0 # {"$imagepolicy": "flux-system:websockets-frontend"}
         ports:
         - containerPort: 80
 ---
