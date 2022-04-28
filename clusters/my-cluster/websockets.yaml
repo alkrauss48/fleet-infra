@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: alkrauss48/websockets-backend:1.0.0 # {"$imagepolicy": "flux-system:websockets-backend"}
+        image: alkrauss48/websockets-backend:1.1.0 # {"$imagepolicy": "flux-system:websockets-backend"}
         ports:
         - containerPort: 7070
 ---
