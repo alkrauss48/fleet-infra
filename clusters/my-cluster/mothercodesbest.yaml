@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: laylark/mothercodesbest.dev-frontend:1.1.0 # {"$imagepolicy": "flux-system:mothercodesbest-frontend"}
+        image: laylark/mothercodesbest.dev-frontend:1.1.1 # {"$imagepolicy": "flux-system:mothercodesbest-frontend"}
         ports:
         - containerPort: 80
         resources:
