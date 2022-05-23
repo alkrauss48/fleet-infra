@@ -26,7 +26,7 @@ spec:
           mountPath: /data
       containers:
       - name: app
-        image: alkrauss48/resume-haus:1.0.1 # {"$imagepolicy": "flux-system:resume-haus-web"}
+        image: alkrauss48/resume-haus:1.0.2 # {"$imagepolicy": "flux-system:resume-haus-web"}
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -144,7 +144,7 @@ spec:
           mountPath: /data
       containers:
       - name: db
-        image: alkrauss48/resume-haus-db:1.0.1 # {"$imagepolicy": "flux-system:resume-haus-db"}
+        image: alkrauss48/resume-haus-db:1.0.2 # {"$imagepolicy": "flux-system:resume-haus-db"}
         args:
         - "--ignore-db-dir=lost+found"
         ports:
