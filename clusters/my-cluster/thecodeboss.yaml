@@ -120,7 +120,7 @@ spec:
           mountPath: /data
       containers:
       - name: nginx
-        image: alkrauss48/thecodeboss.dev-frontend:1.0.1 # {"$imagepolicy": "flux-system:thecodeboss-frontend"}
+        image: alkrauss48/thecodeboss.dev-frontend:1.0.2 # {"$imagepolicy": "flux-system:thecodeboss-frontend"}
         ports:
         - containerPort: 80
         volumeMounts:
@@ -180,7 +180,7 @@ spec:
           mountPath: /data
       containers:
       - name: db
-        image: alkrauss48/thecodeboss.dev-db:1.0.1 # {"$imagepolicy": "flux-system:thecodeboss-db"}
+        image: alkrauss48/thecodeboss.dev-db:1.0.2 # {"$imagepolicy": "flux-system:thecodeboss-db"}
         args:
         - "--ignore-db-dir=lost+found"
         ports:
