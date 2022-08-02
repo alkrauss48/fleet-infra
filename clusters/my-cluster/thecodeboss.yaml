@@ -35,7 +35,7 @@ spec:
           mountPath: /data
       containers:
       - name: wordpress
-        image: alkrauss48/thecodeboss.dev:1.0.1 # {"$imagepolicy": "flux-system:thecodeboss-wordpress"}
+        image: alkrauss48/thecodeboss.dev:1.0.2 # {"$imagepolicy": "flux-system:thecodeboss-wordpress"}
         ports:
         - containerPort: 9000
         volumeMounts:
