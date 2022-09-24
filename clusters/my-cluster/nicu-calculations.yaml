@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nicu-calculations
-        image: laylark/nicu-calculations-app:latest # {"$imagepolicy": "flux-system:nicu-calculations-app"}
+        image: laylark/nicu-calculations-app:1.0.0 # {"$imagepolicy": "flux-system:nicu-calculations-app"}
         ports:
         - containerPort: 5000
         resources:
