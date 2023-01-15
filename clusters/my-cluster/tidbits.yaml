@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: tidbits
-        image: laylark/openai-tidbits-app:dev-main # {"$imagepolicy": "flux-system:openai-tidbits-app"}
+        image: laylark/openai-tidbits-app:1.0.0 # {"$imagepolicy": "flux-system:openai-tidbits-app"}
         ports:
         - containerPort: 5000
         env:
