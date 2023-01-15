@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: tidbits
-        image: laylark/openai-tidbits-app:dev-main # {"$imagepolicy": "flux-system:nicu-calculations-app"}
+        image: laylark/nicu-calculations-app:1.0.2 # {"$imagepolicy": "flux-system:nicu-calculations-app"}
         ports:
         - containerPort: 5000
         env:
