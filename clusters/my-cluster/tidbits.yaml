@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: tidbits
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: tidbits
+        image: laylark/openai-tidbits-app:dev-main # {"$imagepolicy": "flux-system:nicu-calculations-app"}
+        ports:
+        - containerPort: 5000
+        env:
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app
+              key: openAIKey
+        resources:
+          requests:
+            memory: "20Mi"
+            cpu: "10m"
+          limits:
+            memory: "100Mi"
+            cpu: "50m"
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: openai-tidbits-app
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: openai-tidbits-app
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: openai-tidbits-app
+  namespace: flux-system
+spec:
+  image: laylark/openai-tidbits-app
+  interval: 1m0s
