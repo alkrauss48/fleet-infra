@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: takahashi-slides
-        image: alkrauss48/takahashi-slides:1.0.0 # {"$imagepolicy": "flux-system:takahashi-slides"}
+        image: alkrauss48/takahashi-slides:1.0.1 # {"$imagepolicy": "flux-system:takahashi-slides"}
         ports:
         - containerPort: 80
         resources:
