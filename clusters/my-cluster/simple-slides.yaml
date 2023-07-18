@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: takahashi-slides
+  namespace: simple-slides
 spec:
   replicas: 1
   selector:
@@ -14,8 +14,8 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: takahashi-slides
-        image: alkrauss48/takahashi-slides:1.0.1 # {"$imagepolicy": "flux-system:takahashi-slides"}
+      - name: simple-slides
+        image: alkrauss48/simple-slides:1.0.1 # {"$imagepolicy": "flux-system:simple-slides"}
         ports:
         - containerPort: 80
         resources:
@@ -35,11 +35,11 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
 metadata:
-  name: takahashi-slides
+  name: simple-slides
   namespace: flux-system
 spec:
   imageRepositoryRef:
-    name: takahashi-slides
+    name: simple-slides
   policy:
     semver:
       range: 1.x.x
@@ -47,8 +47,8 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageRepository
 metadata:
-  name: takahashi-slides
+  name: simple-slides
   namespace: flux-system
 spec:
-  image: alkrauss48/takahashi-slides
+  image: alkrauss48/simple-slides
   interval: 1m0s
