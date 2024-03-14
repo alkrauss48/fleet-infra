@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: alkrauss48/simple-slides-laravel:1.0.3 # {"$imagepolicy": "flux-system:simple-slides"}
+        image: alkrauss48/simple-slides-laravel:1.0.4 # {"$imagepolicy": "flux-system:simple-slides"}
         ports:
         - containerPort: 80
         env:
