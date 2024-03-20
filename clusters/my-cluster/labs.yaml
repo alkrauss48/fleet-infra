@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
       - name: php
-        image: alkrauss48/labs-php:1.0.0 # {"$imagepolicy": "flux-system:labs-backend"}
+        image: alkrauss48/labs-php:1.0.1 # {"$imagepolicy": "flux-system:labs-backend"}
         ports:
         - containerPort: 9000
 ---
