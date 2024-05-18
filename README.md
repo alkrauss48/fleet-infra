@@ -43,6 +43,13 @@ flux reconcile kustomization flux-system --with-source
 # Watch for kustomization changes
 flux get kustomizations --watch
 
+# Suspend and resume flux
+flux suspend kustomization flux-system
+flux resume kustomization flux-system
+
+# Watch for kustomization changes
+flux get kustomizations --watch
+
 # Uninstall flux entirely. Be careful here.
 flux uninstall
 ```
