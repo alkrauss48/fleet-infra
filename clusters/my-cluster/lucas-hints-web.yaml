@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: lucas-hints-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: lucas-hints-web
+        image: alkrauss48/lucas-hints-web:latest # {"$imagepolicy": "flux-system:lucas-hints-web"}
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "4Mi"
+            cpu: "1m"
+          limits:
+            memory: "50Mi"
+            cpu: "20m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: lucas-hints-web
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: lucas-hints-web
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: lucas-hints-web
+  namespace: flux-system
+spec:
+  image: alkrauss48/lucas-hints-web
+  interval: 1m0s
