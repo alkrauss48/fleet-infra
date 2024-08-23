@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: lucas-hints-web
-        image: alkrauss48/lucas-hints-web:latest # {"$imagepolicy": "flux-system:lucas-hints-web"}
+        image: alkrauss48/lucas-hints-web:1.0.0 # {"$imagepolicy": "flux-system:lucas-hints-web"}
         ports:
         - containerPort: 80
         resources:
