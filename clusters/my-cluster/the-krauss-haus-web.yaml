@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: the-krauss-haus-web
-        image: alkrauss48/the-krauss-haus-web:1.11.8 # {"$imagepolicy": "flux-system:the-krauss-haus-web"}
+        image: alkrauss48/the-krauss-haus-web:1.11.9 # {"$imagepolicy": "flux-system:the-krauss-haus-web"}
         ports:
         - containerPort: 3000
 ---
