@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: alkrauss48/simple-slides-laravel:1.5.1 # {"$imagepolicy": "flux-system:simple-slides"}
+        image: alkrauss48/simple-slides-laravel:1.5.2 # {"$imagepolicy": "flux-system:simple-slides"}
         ports:
         - containerPort: 80
         envFrom:
@@ -80,7 +80,7 @@ spec:
     spec:
       containers:
       - name: worker
-        image: alkrauss48/simple-slides-laravel:1.5.1 # {"$imagepolicy": "flux-system:simple-slides"}
+        image: alkrauss48/simple-slides-laravel:1.5.2 # {"$imagepolicy": "flux-system:simple-slides"}
         command:
         - s6-svscan
         - /etc/s6/worker
