@@ -18,6 +18,20 @@ spec:
         image: alkrauss48/the-krauss-haus-web:1.24.2 # {"$imagepolicy": "flux-system:the-krauss-haus-web"}
         ports:
         - containerPort: 3000
+        env:
+        - name: BAR_API_URL
+          value: http://app.ask-eddie.svc.cluster.local
+        - name: BAR_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app
+              key: barApiKey
+        - name: BAR_CLIENT_RATE_PER_MIN
+          value: "8"
+        - name: BAR_CONNECT_TIMEOUT_MS
+          value: "30000"
+        - name: BAR_IDLE_TIMEOUT_MS
+          value: "75000"
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImagePolicy
