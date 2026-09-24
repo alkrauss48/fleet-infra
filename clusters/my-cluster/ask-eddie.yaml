@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: alkrauss48/ask-eddie:1.0.0 # {"$imagepolicy": "flux-system:ask-eddie"}
+        image: alkrauss48/ask-eddie:1.0.1 # {"$imagepolicy": "flux-system:ask-eddie"}
         ports:
         - containerPort: 80
         resources:
