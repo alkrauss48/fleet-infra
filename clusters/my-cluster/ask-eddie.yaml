@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: ask-eddie
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app
+        image: alkrauss48/ask-eddie:1.0.0 # {"$imagepolicy": "flux-system:ask-eddie"}
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "50m"
+          limits:
+            memory: "768Mi"
+            cpu: "1000m"
+        readinessProbe:
+          httpGet:
+            path: /up
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /up
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        envFrom:
+        - configMapRef:
+            name: envs
+        env:
+        - name: APP_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app
+              key: appKey
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app
+              key: openaiApiKey
+        - name: BAR_API_KEYS
+          valueFrom:
+            secretKeyRef:
+              name: app
+              key: barApiKeys
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: database
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db
+              key: password
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: ask-eddie
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: ask-eddie
+  policy:
+    semver:
+      range: 1.x.x
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: ask-eddie
+  namespace: flux-system
+spec:
+  image: alkrauss48/ask-eddie
+  interval: 1m0s
